@@ -10,6 +10,7 @@ class WxAvatar extends StatelessWidget {
   /// Create an avatar widget
   const WxAvatar({
     super.key,
+    this.animated = false,
     this.curve,
     this.duration,
     this.size,
@@ -45,6 +46,7 @@ class WxAvatar extends StatelessWidget {
   /// Create an avatar widget with circle shape
   const WxAvatar.circle({
     super.key,
+    this.animated = false,
     this.curve,
     this.duration,
     double? radius,
@@ -76,6 +78,9 @@ class WxAvatar extends StatelessWidget {
     this.child,
   })  : shape = BoxShape.circle,
         size = radius != null ? radius * 2 : null;
+
+  /// Whether to animate text style, icon theme, and other decoration on value changed.
+  final bool animated;
 
   /// The curve to apply when animating the parameters of this widget.
   final Curve? curve;
@@ -223,22 +228,37 @@ class WxAvatar extends StatelessWidget {
     Widget? result = child;
 
     if (result != null) {
-      result = Center(
-        child: MediaQuery.withNoTextScaling(
-          child: AnimatedDefaultTextStyle(
+      if (animated) {
+        result = AnimatedDefaultTextStyle(
+          curve: effectiveCurve,
+          duration: effectiveDuration,
+          style: themedStyle.effectiveForegroundStyle,
+          child: AnimatedIconTheme.merge(
+            data: IconThemeData(
+              color: themedStyle.effectiveForegroundColor,
+              size: themedStyle.foregroundSize,
+            ),
             curve: effectiveCurve,
             duration: effectiveDuration,
-            style: themedStyle.effectiveForegroundStyle,
-            child: AnimatedIconTheme.merge(
-              data: IconThemeData(
-                color: themedStyle.effectiveForegroundColor,
-                size: themedStyle.foregroundSize,
-              ),
-              curve: effectiveCurve,
-              duration: effectiveDuration,
-              child: result,
-            ),
+            child: result,
           ),
+        );
+      } else {
+        result = DefaultTextStyle(
+          style: themedStyle.effectiveForegroundStyle,
+          child: IconTheme.merge(
+            data: IconThemeData(
+              color: themedStyle.effectiveForegroundColor,
+              size: themedStyle.foregroundSize,
+            ),
+            child: result,
+          ),
+        );
+      }
+
+      result = Center(
+        child: MediaQuery.withNoTextScaling(
+          child: result,
         ),
       );
     }
@@ -276,24 +296,43 @@ class WxAvatar extends StatelessWidget {
       );
     }
 
-    result = WxAnimatedBox(
-      curve: effectiveCurve,
-      duration: effectiveDuration,
-      width: themedStyle.effectiveSize,
-      height: themedStyle.effectiveSize,
-      margin: themedStyle.margin,
-      clipBehavior: themedStyle.clipBehavior,
-      shadowColor: themedStyle.shadowColor,
-      elevation: themedStyle.elevation,
-      color: themedStyle.effectiveBackgroundColor,
-      borderColor: themedStyle.effectiveBorderColor,
-      borderWidth: themedStyle.borderWidth,
-      borderStyle: themedStyle.borderStyle,
-      borderRadius: themedStyle.borderRadius,
-      borderAlign: themedStyle.borderAlign,
-      shape: themedStyle.wxBoxShape,
-      child: result,
-    );
+    if (animated) {
+      result = WxAnimatedBox(
+        curve: effectiveCurve,
+        duration: effectiveDuration,
+        width: themedStyle.effectiveSize,
+        height: themedStyle.effectiveSize,
+        margin: themedStyle.margin,
+        clipBehavior: themedStyle.clipBehavior,
+        shadowColor: themedStyle.shadowColor,
+        elevation: themedStyle.elevation,
+        color: themedStyle.effectiveBackgroundColor,
+        borderColor: themedStyle.effectiveBorderColor,
+        borderWidth: themedStyle.borderWidth,
+        borderStyle: themedStyle.borderStyle,
+        borderRadius: themedStyle.borderRadius,
+        borderAlign: themedStyle.borderAlign,
+        shape: themedStyle.wxBoxShape,
+        child: result,
+      );
+    } else {
+      result = WxBox(
+        width: themedStyle.effectiveSize,
+        height: themedStyle.effectiveSize,
+        margin: themedStyle.margin,
+        clipBehavior: themedStyle.clipBehavior,
+        shadowColor: themedStyle.shadowColor,
+        elevation: themedStyle.elevation,
+        color: themedStyle.effectiveBackgroundColor,
+        borderColor: themedStyle.effectiveBorderColor,
+        borderWidth: themedStyle.borderWidth,
+        borderStyle: themedStyle.borderStyle,
+        borderRadius: themedStyle.borderRadius,
+        borderAlign: themedStyle.borderAlign,
+        shape: themedStyle.wxBoxShape,
+        child: result,
+      );
+    }
 
     if (tooltip != null) {
       result = Tooltip(
