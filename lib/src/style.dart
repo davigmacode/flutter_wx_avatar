@@ -6,6 +6,87 @@ import 'package:wx_box/wx_box.dart';
 /// The style to be applied to avatar widget
 @immutable
 class AvatarStyle with Diagnosticable {
+  /// Create a raw avatar's style
+  const AvatarStyle({
+    this.size,
+    this.shape,
+    this.margin,
+    this.clipBehavior,
+    this.shadowColor,
+    this.elevation,
+    this.foregroundStyle,
+    this.foregroundColor,
+    this.foregroundOpacity,
+    this.foregroundAlpha,
+    this.backgroundColor,
+    this.backgroundOpacity,
+    this.backgroundAlpha,
+    this.borderColor,
+    this.borderOpacity,
+    this.borderAlpha,
+    this.borderWidth,
+    this.borderAlign,
+    this.borderStyle,
+    this.borderRadius,
+  });
+
+  /// Create an avatar's style with circle shape
+  const AvatarStyle.circle({
+    double? radius,
+    this.shape,
+    this.margin,
+    this.clipBehavior,
+    this.shadowColor,
+    this.elevation,
+    this.foregroundStyle,
+    this.foregroundColor,
+    this.foregroundOpacity,
+    this.foregroundAlpha,
+    this.backgroundColor,
+    this.backgroundOpacity,
+    this.backgroundAlpha,
+    this.borderColor,
+    this.borderOpacity,
+    this.borderAlpha,
+    this.borderWidth,
+    this.borderAlign,
+    this.borderStyle,
+    this.borderRadius,
+  }) : size = radius != null ? radius * 2 : null;
+
+  /// Create a avatar's style from another style
+  AvatarStyle.from(AvatarStyle? other)
+      : size = other?.size,
+        shape = other?.shape,
+        margin = other?.margin,
+        clipBehavior = other?.clipBehavior,
+        shadowColor = other?.shadowColor,
+        elevation = other?.elevation,
+        foregroundStyle = other?.foregroundStyle,
+        foregroundColor = other?.foregroundColor,
+        foregroundOpacity = other?.foregroundOpacity,
+        foregroundAlpha = other?.foregroundAlpha,
+        backgroundColor = other?.backgroundColor,
+        backgroundOpacity = other?.backgroundOpacity,
+        backgroundAlpha = other?.backgroundAlpha,
+        borderColor = other?.borderColor,
+        borderOpacity = other?.borderOpacity,
+        borderAlpha = other?.borderAlpha,
+        borderWidth = other?.borderWidth,
+        borderAlign = other?.borderAlign,
+        borderStyle = other?.borderStyle,
+        borderRadius = other?.borderRadius;
+
+  /// An [AvatarStyle] with some reasonable default values.
+  static const defaults = AvatarStyle(
+    size: 40.0,
+    shape: BoxShape.rectangle,
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderWidth: 1.0,
+    borderStyle: BorderStyle.none,
+    borderAlign: BorderSide.strokeAlignOutside,
+  );
+
   /// The type of avatar's shape.
   final BoxShape? shape;
 
@@ -126,62 +207,6 @@ class AvatarStyle with Diagnosticable {
   TextStyle get effectiveForegroundStyle {
     return TextStyle(color: foregroundColor).merge(foregroundStyle);
   }
-
-  /// Create a raw avatar's style
-  const AvatarStyle({
-    this.size,
-    this.shape,
-    this.margin,
-    this.clipBehavior,
-    this.shadowColor,
-    this.elevation,
-    this.foregroundStyle,
-    this.foregroundColor,
-    this.foregroundOpacity,
-    this.foregroundAlpha,
-    this.backgroundColor,
-    this.backgroundOpacity,
-    this.backgroundAlpha,
-    this.borderColor,
-    this.borderOpacity,
-    this.borderAlpha,
-    this.borderWidth,
-    this.borderAlign,
-    this.borderStyle,
-    this.borderRadius,
-  });
-
-  /// Create a avatar's style from another style
-  AvatarStyle.from(AvatarStyle? other)
-      : size = other?.size,
-        shape = other?.shape,
-        margin = other?.margin,
-        clipBehavior = other?.clipBehavior,
-        shadowColor = other?.shadowColor,
-        elevation = other?.elevation,
-        foregroundStyle = other?.foregroundStyle,
-        foregroundColor = other?.foregroundColor,
-        foregroundOpacity = other?.foregroundOpacity,
-        foregroundAlpha = other?.foregroundAlpha,
-        backgroundColor = other?.backgroundColor,
-        backgroundOpacity = other?.backgroundOpacity,
-        backgroundAlpha = other?.backgroundAlpha,
-        borderColor = other?.borderColor,
-        borderOpacity = other?.borderOpacity,
-        borderAlpha = other?.borderAlpha,
-        borderWidth = other?.borderWidth,
-        borderAlign = other?.borderAlign,
-        borderStyle = other?.borderStyle,
-        borderRadius = other?.borderRadius;
-
-  /// An [AvatarStyle] with some reasonable default values.
-  static const defaults = AvatarStyle(
-    size: 40.0,
-    shape: BoxShape.rectangle,
-    borderRadius: BorderRadius.all(Radius.circular(8)),
-    borderStyle: BorderStyle.none,
-    borderWidth: 1.0,
-  );
 
   /// Linearly interpolate between two icon theme data objects.
   static AvatarStyle? lerp(AvatarStyle? a, AvatarStyle? b, double t) {

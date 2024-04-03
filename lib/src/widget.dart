@@ -9,7 +9,7 @@ import 'style.dart';
 class Avatar extends StatelessWidget {
   /// Create an avatar widget
   const Avatar({
-    Key? key,
+    super.key,
     this.curve,
     this.duration,
     this.size,
@@ -39,7 +39,41 @@ class Avatar extends StatelessWidget {
     this.baseImage,
     this.image,
     this.child,
-  }) : super(key: key);
+  });
+
+  /// Create an avatar widget with circle shape
+  const Avatar.circle({
+    super.key,
+    this.curve,
+    this.duration,
+    double? radius,
+    this.margin,
+    this.clipBehavior,
+    this.shadowColor,
+    this.elevation,
+    this.foregroundStyle,
+    this.foregroundColor,
+    this.foregroundOpacity,
+    this.foregroundAlpha,
+    this.backgroundColor,
+    this.backgroundOpacity,
+    this.backgroundAlpha,
+    this.borderColor,
+    this.borderOpacity,
+    this.borderAlpha,
+    this.borderWidth,
+    this.borderAlign,
+    this.borderStyle,
+    this.borderRadius,
+    this.style,
+    this.tooltip,
+    this.onBaseImageError,
+    this.onImageError,
+    this.baseImage,
+    this.image,
+    this.child,
+  })  : shape = BoxShape.circle,
+        size = radius != null ? radius * 2 : null;
 
   /// The curve to apply when animating the parameters of this widget.
   final Curve? curve;
@@ -71,7 +105,7 @@ class Avatar extends StatelessWidget {
 
   /// The style to be applied to the avatar's label.
   ///
-  /// The default label style is [TextTheme.bodyText1] from the overall
+  /// The default label style is [TextTheme.titleMedium] from the overall
   /// theme's [ThemeData.textTheme].
   //
   /// This only has an effect on widgets that respect the [DefaultTextStyle],
