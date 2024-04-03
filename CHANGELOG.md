@@ -1,3 +1,7 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+* Added avatar widget.
+* Added avatar style.
+* Added avatar theme widget.
+* Added avatar theme data.
+* Added avatar theme preset.
