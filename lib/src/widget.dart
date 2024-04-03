@@ -14,7 +14,9 @@ class Avatar extends StatelessWidget {
     this.duration,
     this.style,
     this.tooltip,
+    this.onBaseImageError,
     this.onImageError,
+    this.baseImage,
     this.image,
     this.child,
   }) : super(key: key);
@@ -31,14 +33,26 @@ class Avatar extends StatelessWidget {
   /// Tooltip string to be used for the body area of the button.
   final String? tooltip;
 
-  /// An optional error callback for errors emitted when loading [image].
-  final ImageErrorListener? onImageError;
-
   /// The background image of the circle. Changing the background
   /// image will cause the avatar to animate to the new image.
   ///
-  /// If the [Avatar] is to have the user's initials, use [child] instead.
+  /// Typically used as a fallback image for [image].
+  ///
+  /// If the [CircleAvatar] is to have the user's initials, use [child] instead.
+  final ImageProvider? baseImage;
+
+  /// The foreground image of the circle.
+  ///
+  /// Typically used as profile image. For fallback use [baseImage].
   final ImageProvider? image;
+
+  /// An optional error callback for errors emitted when loading
+  /// [baseImage].
+  final ImageErrorListener? onBaseImageError;
+
+  /// An optional error callback for errors emitted when loading
+  /// [image].
+  final ImageErrorListener? onImageError;
 
   /// The widget below this widget in the tree.
   final Widget? child;
@@ -72,6 +86,20 @@ class Avatar extends StatelessWidget {
       );
     }
 
+    if (baseImage != null) {
+      result = DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: baseImage!,
+            onError: onBaseImageError,
+            fit: BoxFit.cover,
+          ),
+          shape: themedStyle.effectiveShape,
+        ),
+        child: result,
+      );
+    }
+
     if (image != null) {
       result = DecoratedBox(
         decoration: BoxDecoration(
@@ -80,7 +108,9 @@ class Avatar extends StatelessWidget {
             onError: onImageError,
             fit: BoxFit.cover,
           ),
+          shape: themedStyle.effectiveShape,
         ),
+        position: DecorationPosition.foreground,
         child: result,
       );
     }
@@ -99,7 +129,7 @@ class Avatar extends StatelessWidget {
       borderWidth: themedStyle.borderWidth,
       borderStyle: themedStyle.borderStyle,
       borderRadius: themedStyle.borderRadius,
-      shape: themedStyle.effectiveShape,
+      shape: themedStyle.wxBoxShape,
       child: result,
     );
 
