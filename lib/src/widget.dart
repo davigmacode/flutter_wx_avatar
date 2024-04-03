@@ -19,6 +19,7 @@ class WxAvatar extends StatelessWidget {
     this.shadowColor,
     this.elevation,
     this.foregroundStyle,
+    this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
@@ -52,6 +53,7 @@ class WxAvatar extends StatelessWidget {
     this.shadowColor,
     this.elevation,
     this.foregroundStyle,
+    this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
@@ -111,6 +113,9 @@ class WxAvatar extends StatelessWidget {
   /// This only has an effect on widgets that respect the [DefaultTextStyle],
   /// such as [Text].
   final TextStyle? foregroundStyle;
+
+  /// Size to be apply to the Text or Icon.
+  final double? foregroundSize;
 
   /// The color to be applied to the avatar's label, icon, and checkmark
   final Color? foregroundColor;
@@ -193,6 +198,7 @@ class WxAvatar extends StatelessWidget {
         shadowColor: shadowColor,
         elevation: elevation,
         foregroundStyle: foregroundStyle,
+        foregroundSize: foregroundSize,
         foregroundColor: foregroundColor,
         foregroundOpacity: foregroundOpacity,
         foregroundAlpha: foregroundAlpha,
@@ -225,8 +231,8 @@ class WxAvatar extends StatelessWidget {
             style: themedStyle.effectiveForegroundStyle,
             child: AnimatedIconTheme.merge(
               data: IconThemeData(
-                color: themedStyle.effectiveForegroundStyle.color,
-                size: themedStyle.effectiveForegroundStyle.fontSize,
+                color: themedStyle.effectiveForegroundColor,
+                size: themedStyle.foregroundSize,
               ),
               curve: effectiveCurve,
               duration: effectiveDuration,

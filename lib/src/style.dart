@@ -15,6 +15,7 @@ class WxAvatarStyle with Diagnosticable {
     this.shadowColor,
     this.elevation,
     this.foregroundStyle,
+    this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
@@ -39,6 +40,7 @@ class WxAvatarStyle with Diagnosticable {
     this.shadowColor,
     this.elevation,
     this.foregroundStyle,
+    this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
@@ -63,6 +65,7 @@ class WxAvatarStyle with Diagnosticable {
         shadowColor = other?.shadowColor,
         elevation = other?.elevation,
         foregroundStyle = other?.foregroundStyle,
+        foregroundSize = other?.foregroundSize,
         foregroundColor = other?.foregroundColor,
         foregroundOpacity = other?.foregroundOpacity,
         foregroundAlpha = other?.foregroundAlpha,
@@ -81,7 +84,7 @@ class WxAvatarStyle with Diagnosticable {
   static const defaults = WxAvatarStyle(
     size: 40.0,
     shape: BoxShape.rectangle,
-    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderRadius: BorderRadius.all(Radius.circular(4)),
     borderWidth: 1.0,
     borderStyle: BorderStyle.none,
     borderAlign: BorderSide.strokeAlignOutside,
@@ -117,6 +120,9 @@ class WxAvatarStyle with Diagnosticable {
   /// This only has an effect on widgets that respect the [DefaultTextStyle],
   /// such as [Text].
   final TextStyle? foregroundStyle;
+
+  /// Size to be apply to the Text or Icon.
+  final double? foregroundSize;
 
   /// The color to be applied to the avatar's label, icon, and checkmark
   final Color? foregroundColor;
@@ -170,6 +176,12 @@ class WxAvatarStyle with Diagnosticable {
   /// [WxBoxShape] from [BoxShape] value
   WxBoxShape get wxBoxShape => WxBoxShape.values[effectiveShape.index];
 
+  /// Whether or not this is rectangle shape
+  bool get isRectangle => effectiveShape == BoxShape.rectangle;
+
+  /// Whether or not this is circle shape
+  bool get isCircle => !isRectangle;
+
   /// Computed background color with opacity and alpha
   Color? get effectiveBackgroundColor {
     return backgroundColor != null
@@ -205,37 +217,10 @@ class WxAvatarStyle with Diagnosticable {
 
   /// Computed foreground text style with foreground color
   TextStyle get effectiveForegroundStyle {
-    return TextStyle(color: foregroundColor).merge(foregroundStyle);
-  }
-
-  /// Linearly interpolate between two icon theme data objects.
-  static WxAvatarStyle? lerp(WxAvatarStyle? a, WxAvatarStyle? b, double t) {
-    if (a == null && b == null) return null;
-    return WxAvatarStyle(
-      size: lerpDouble(a?.size, b?.size, t),
-      shape: t < 0.5 ? a?.shape : b?.shape,
-      margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
-      clipBehavior: t < 0.5 ? a?.clipBehavior : b?.clipBehavior,
-      shadowColor: Color.lerp(a?.shadowColor, b?.shadowColor, t),
-      elevation: lerpDouble(a?.elevation, b?.elevation, t),
-      foregroundStyle:
-          TextStyle.lerp(a?.foregroundStyle, b?.foregroundStyle, t),
-      foregroundColor: Color.lerp(a?.foregroundColor, b?.foregroundColor, t),
-      foregroundOpacity:
-          lerpDouble(a?.foregroundOpacity, b?.foregroundOpacity, t),
-      foregroundAlpha: lerpInt(a?.foregroundAlpha, b?.foregroundAlpha, t),
-      backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
-      backgroundOpacity:
-          lerpDouble(a?.backgroundOpacity, b?.backgroundOpacity, t),
-      backgroundAlpha: lerpInt(a?.backgroundAlpha, b?.backgroundAlpha, t),
-      borderColor: Color.lerp(a?.borderColor, b?.borderColor, t),
-      borderOpacity: lerpDouble(a?.borderOpacity, b?.borderOpacity, t),
-      borderAlpha: lerpInt(a?.borderAlpha, b?.borderAlpha, t),
-      borderWidth: lerpDouble(a?.borderWidth, b?.borderWidth, t),
-      borderAlign: lerpDouble(a?.borderAlign, b?.borderAlign, t),
-      borderStyle: t < 0.5 ? a?.borderStyle : b?.borderStyle,
-      borderRadius: BorderRadius.lerp(a?.borderRadius, b?.borderRadius, t),
-    );
+    return const TextStyle().merge(foregroundStyle).copyWith(
+          color: foregroundColor,
+          fontSize: foregroundSize,
+        );
   }
 
   /// Creates a copy of this [WxAvatarStyle] but with
@@ -248,6 +233,7 @@ class WxAvatarStyle with Diagnosticable {
     Color? shadowColor,
     double? elevation,
     TextStyle? foregroundStyle,
+    double? foregroundSize,
     Color? foregroundColor,
     double? foregroundOpacity,
     int? foregroundAlpha,
@@ -271,6 +257,7 @@ class WxAvatarStyle with Diagnosticable {
       shadowColor: shadowColor ?? this.shadowColor,
       elevation: elevation ?? this.elevation,
       foregroundStyle: foregroundStyle ?? this.foregroundStyle,
+      foregroundSize: foregroundSize ?? this.foregroundSize,
       foregroundColor: foregroundColor ?? this.foregroundColor,
       foregroundOpacity: foregroundOpacity ?? this.foregroundOpacity,
       foregroundAlpha: foregroundAlpha ?? this.foregroundAlpha,
@@ -301,6 +288,7 @@ class WxAvatarStyle with Diagnosticable {
       shadowColor: other.shadowColor,
       elevation: other.elevation,
       foregroundStyle: other.foregroundStyle,
+      foregroundSize: other.foregroundSize,
       foregroundColor: other.foregroundColor,
       foregroundOpacity: other.foregroundOpacity,
       foregroundAlpha: other.foregroundAlpha,
@@ -317,6 +305,37 @@ class WxAvatarStyle with Diagnosticable {
     );
   }
 
+  /// Linearly interpolate between two icon theme data objects.
+  static WxAvatarStyle? lerp(WxAvatarStyle? a, WxAvatarStyle? b, double t) {
+    if (a == null && b == null) return null;
+    return WxAvatarStyle(
+      size: lerpDouble(a?.size, b?.size, t),
+      shape: t < 0.5 ? a?.shape : b?.shape,
+      margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
+      clipBehavior: t < 0.5 ? a?.clipBehavior : b?.clipBehavior,
+      shadowColor: Color.lerp(a?.shadowColor, b?.shadowColor, t),
+      elevation: lerpDouble(a?.elevation, b?.elevation, t),
+      foregroundStyle:
+          TextStyle.lerp(a?.foregroundStyle, b?.foregroundStyle, t),
+      foregroundSize: lerpDouble(a?.foregroundSize, b?.foregroundSize, t),
+      foregroundColor: Color.lerp(a?.foregroundColor, b?.foregroundColor, t),
+      foregroundOpacity:
+          lerpDouble(a?.foregroundOpacity, b?.foregroundOpacity, t),
+      foregroundAlpha: lerpInt(a?.foregroundAlpha, b?.foregroundAlpha, t),
+      backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
+      backgroundOpacity:
+          lerpDouble(a?.backgroundOpacity, b?.backgroundOpacity, t),
+      backgroundAlpha: lerpInt(a?.backgroundAlpha, b?.backgroundAlpha, t),
+      borderColor: Color.lerp(a?.borderColor, b?.borderColor, t),
+      borderOpacity: lerpDouble(a?.borderOpacity, b?.borderOpacity, t),
+      borderAlpha: lerpInt(a?.borderAlpha, b?.borderAlpha, t),
+      borderWidth: lerpDouble(a?.borderWidth, b?.borderWidth, t),
+      borderAlign: lerpDouble(a?.borderAlign, b?.borderAlign, t),
+      borderStyle: t < 0.5 ? a?.borderStyle : b?.borderStyle,
+      borderRadius: BorderRadius.lerp(a?.borderRadius, b?.borderRadius, t),
+    );
+  }
+
   Map<String, dynamic> toMap() => {
         'size': size,
         'shape': shape,
@@ -325,6 +344,7 @@ class WxAvatarStyle with Diagnosticable {
         'shadowColor': shadowColor,
         'elevation': elevation,
         'foregroundStyle': foregroundStyle,
+        'foregroundSize': foregroundSize,
         'foregroundColor': foregroundColor,
         'foregroundOpacity': foregroundOpacity,
         'foregroundAlpha': foregroundAlpha,
