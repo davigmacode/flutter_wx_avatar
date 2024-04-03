@@ -86,7 +86,7 @@ class MyHomePage extends StatelessWidget {
                     borderWidth: 2,
                     backgroundColor: Theme.of(context).colorScheme.surface,
                     foregroundColor: Colors.black87,
-                    foregroundSize: 40,
+                    foregroundSize: 30,
                     child: const Icon(Icons.person),
                   ),
                 ],
