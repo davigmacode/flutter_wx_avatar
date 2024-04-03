@@ -139,6 +139,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  overlap_stack:
+    dependency: "direct main"
+    description:
+      name: overlap_stack
+      sha256: ca5b364351e1fe7d1cdbce8fb1b309db0beda09f5b128eda592ca1bc117f22c9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -228,6 +236,14 @@ packages:
     description:
       name: wx_box
       sha256: "9e584f1e0435893750bdb3901522203e41d388bd75848a28ff863db7d0c1d10b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  wx_text:
+    dependency: "direct main"
+    description:
+      name: wx_text
+      sha256: "640d78433ade9c84582a8afe9eaefae024b4d4dca8e2c064d385bd12ac3eed25"
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
