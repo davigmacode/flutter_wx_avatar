@@ -129,6 +129,7 @@ class Avatar extends StatelessWidget {
       borderWidth: themedStyle.borderWidth,
       borderStyle: themedStyle.borderStyle,
       borderRadius: themedStyle.borderRadius,
+      borderAlign: themedStyle.borderAlign,
       shape: themedStyle.wxBoxShape,
       child: result,
     );

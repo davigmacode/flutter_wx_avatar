@@ -67,8 +67,9 @@ class AvatarStyle with Diagnosticable {
   /// The width of this side of the avatar's border, in logical pixels.
   final double? borderWidth;
 
-  /// The radii for each corner of the avatar's border.
-  final BorderRadius? borderRadius;
+  /// The relative position of the stroke on a [BorderSide] in an
+  /// [OutlinedBorder] or [Border].
+  final double? borderAlign;
 
   /// The style of this side of the avatar's border.
   ///
@@ -76,11 +77,17 @@ class AvatarStyle with Diagnosticable {
   /// This skips painting the border, but the border still has a [borderWidth].
   final BorderStyle? borderStyle;
 
+  /// The radii for each corner of the avatar's border.
+  final BorderRadius? borderRadius;
+
   /// A square [Size] from [size] dimension
   double get effectiveSize => size ?? defaults.size!;
 
   /// [WxBoxShape] from [BoxShape] value
-  WxBoxShape get effectiveShape => WxBoxShape.values[shape?.index ?? 0];
+  BoxShape get effectiveShape => shape ?? defaults.shape!;
+
+  /// [WxBoxShape] from [BoxShape] value
+  WxBoxShape get wxBoxShape => WxBoxShape.values[effectiveShape.index];
 
   /// Computed background color with opacity and alpha
   Color? get effectiveBackgroundColor {
@@ -139,6 +146,7 @@ class AvatarStyle with Diagnosticable {
     this.borderOpacity,
     this.borderAlpha,
     this.borderWidth,
+    this.borderAlign,
     this.borderStyle,
     this.borderRadius,
   });
@@ -162,14 +170,14 @@ class AvatarStyle with Diagnosticable {
         borderOpacity = other?.borderOpacity,
         borderAlpha = other?.borderAlpha,
         borderWidth = other?.borderWidth,
+        borderAlign = other?.borderAlign,
         borderStyle = other?.borderStyle,
         borderRadius = other?.borderRadius;
 
   /// An [AvatarStyle] with some reasonable default values.
   static const defaults = AvatarStyle(
     size: 40.0,
-    shape: BoxShape.circle,
-    clipBehavior: Clip.antiAlias,
+    shape: BoxShape.rectangle,
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderStyle: BorderStyle.none,
     borderWidth: 1.0,
@@ -199,6 +207,7 @@ class AvatarStyle with Diagnosticable {
       borderOpacity: lerpDouble(a?.borderOpacity, b?.borderOpacity, t),
       borderAlpha: lerpInt(a?.borderAlpha, b?.borderAlpha, t),
       borderWidth: lerpDouble(a?.borderWidth, b?.borderWidth, t),
+      borderAlign: lerpDouble(a?.borderAlign, b?.borderAlign, t),
       borderStyle: t < 0.5 ? a?.borderStyle : b?.borderStyle,
       borderRadius: BorderRadius.lerp(a?.borderRadius, b?.borderRadius, t),
     );
@@ -225,6 +234,7 @@ class AvatarStyle with Diagnosticable {
     double? borderOpacity,
     int? borderAlpha,
     double? borderWidth,
+    double? borderAlign,
     BorderStyle? borderStyle,
     BorderRadius? borderRadius,
   }) {
@@ -246,6 +256,7 @@ class AvatarStyle with Diagnosticable {
       borderOpacity: borderOpacity ?? this.borderOpacity,
       borderAlpha: borderAlpha ?? this.borderAlpha,
       borderWidth: borderWidth ?? this.borderWidth,
+      borderAlign: borderAlign ?? this.borderAlign,
       borderStyle: borderStyle ?? this.borderStyle,
       borderRadius: borderRadius ?? this.borderRadius,
     );
@@ -275,6 +286,7 @@ class AvatarStyle with Diagnosticable {
       borderOpacity: other.borderOpacity,
       borderAlpha: other.borderAlpha,
       borderWidth: other.borderWidth,
+      borderAlign: other.borderAlign,
       borderStyle: other.borderStyle,
       borderRadius: other.borderRadius,
     );
@@ -298,6 +310,7 @@ class AvatarStyle with Diagnosticable {
         'borderOpacity': borderOpacity,
         'borderAlpha': borderAlpha,
         'borderWidth': borderWidth,
+        'borderAlign': borderAlign,
         'borderStyle': borderStyle,
         'borderRadius': borderRadius,
       };
