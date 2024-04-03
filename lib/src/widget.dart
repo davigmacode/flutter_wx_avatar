@@ -12,6 +12,26 @@ class Avatar extends StatelessWidget {
     Key? key,
     this.curve,
     this.duration,
+    this.size,
+    this.shape,
+    this.margin,
+    this.clipBehavior,
+    this.shadowColor,
+    this.elevation,
+    this.foregroundStyle,
+    this.foregroundColor,
+    this.foregroundOpacity,
+    this.foregroundAlpha,
+    this.backgroundColor,
+    this.backgroundOpacity,
+    this.backgroundAlpha,
+    this.borderColor,
+    this.borderOpacity,
+    this.borderAlpha,
+    this.borderWidth,
+    this.borderAlign,
+    this.borderStyle,
+    this.borderRadius,
     this.style,
     this.tooltip,
     this.onBaseImageError,
@@ -26,6 +46,80 @@ class Avatar extends StatelessWidget {
 
   /// The duration over which to animate the parameters of this widget.
   final Duration? duration;
+
+  /// The type of avatar's shape.
+  final BoxShape? shape;
+
+  /// The size of the avatar
+  final double? size;
+
+  /// Empty space to surround the outside avatar widget.
+  final EdgeInsetsGeometry? margin;
+
+  /// The avatar's content will be clipped (or not) according to this option.
+  ///
+  /// See the enum [Clip] for details of all possible options and their common use cases.
+  final Clip? clipBehavior;
+
+  /// When [elevation] is non zero the color to use for the avatar's shadow color.
+  final Color? shadowColor;
+
+  /// The avatar's z-coordinate relative to the parent at which to place this physical object.
+  ///
+  /// The value is non-negative.
+  final double? elevation;
+
+  /// The style to be applied to the avatar's label.
+  ///
+  /// The default label style is [TextTheme.bodyText1] from the overall
+  /// theme's [ThemeData.textTheme].
+  //
+  /// This only has an effect on widgets that respect the [DefaultTextStyle],
+  /// such as [Text].
+  final TextStyle? foregroundStyle;
+
+  /// The color to be applied to the avatar's label, icon, and checkmark
+  final Color? foregroundColor;
+
+  /// Opacity to be apply to [foregroundColor].
+  final double? foregroundOpacity;
+
+  /// Alpha to be apply to [foregroundColor].
+  final int? foregroundAlpha;
+
+  /// Color to be used for the avatar's background.
+  final Color? backgroundColor;
+
+  /// Opacity to be apply to [backgroundColor].
+  final double? backgroundOpacity;
+
+  /// Alpha to be apply to [backgroundColor].
+  final int? backgroundAlpha;
+
+  /// Color to be used for the avatar's border.
+  final Color? borderColor;
+
+  /// Opacity to be apply to [borderColor].
+  final double? borderOpacity;
+
+  /// Alpha to be apply to [borderColor].
+  final int? borderAlpha;
+
+  /// The width of this side of the avatar's border, in logical pixels.
+  final double? borderWidth;
+
+  /// The relative position of the stroke on a [BorderSide] in an
+  /// [OutlinedBorder] or [Border].
+  final double? borderAlign;
+
+  /// The style of this side of the avatar's border.
+  ///
+  /// To omit a side, set [borderStyle] to [BorderStyle.none].
+  /// This skips painting the border, but the border still has a [borderWidth].
+  final BorderStyle? borderStyle;
+
+  /// The radii for each corner of the avatar's border.
+  final BorderRadius? borderRadius;
 
   /// The style to be applied to the avatar.
   final AvatarStyle? style;
@@ -57,10 +151,33 @@ class Avatar extends StatelessWidget {
   /// The widget below this widget in the tree.
   final Widget? child;
 
+  AvatarStyle get effectiveStyle => AvatarStyle.from(style).copyWith(
+        size: size,
+        shape: shape,
+        margin: margin,
+        clipBehavior: clipBehavior,
+        shadowColor: shadowColor,
+        elevation: elevation,
+        foregroundStyle: foregroundStyle,
+        foregroundColor: foregroundColor,
+        foregroundOpacity: foregroundOpacity,
+        foregroundAlpha: foregroundAlpha,
+        backgroundColor: backgroundColor,
+        backgroundOpacity: backgroundOpacity,
+        backgroundAlpha: backgroundAlpha,
+        borderColor: borderColor,
+        borderOpacity: borderOpacity,
+        borderAlpha: borderAlpha,
+        borderWidth: borderWidth,
+        borderAlign: borderAlign,
+        borderStyle: borderStyle,
+        borderRadius: borderRadius,
+      );
+
   @override
   Widget build(BuildContext context) {
     final theme = AvatarTheme.of(context);
-    final themedStyle = theme.style.merge(style);
+    final themedStyle = theme.style.merge(effectiveStyle);
     final effectiveCurve = curve ?? theme.curve;
     final effectiveDuration = duration ?? theme.duration;
     Widget? result = child;
