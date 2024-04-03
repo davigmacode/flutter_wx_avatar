@@ -246,6 +246,8 @@ class WxAvatar extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           shape: themedStyle.effectiveShape,
+          borderRadius:
+              themedStyle.isRectangle ? themedStyle.borderRadius : null,
         ),
         child: result,
       );
@@ -260,6 +262,8 @@ class WxAvatar extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           shape: themedStyle.effectiveShape,
+          borderRadius:
+              themedStyle.isRectangle ? themedStyle.borderRadius : null,
         ),
         position: DecorationPosition.foreground,
         child: result,
