@@ -6,9 +6,9 @@ import 'theme.dart';
 import 'style.dart';
 
 /// Display user profile image, initials or fallback icon
-class Avatar extends StatelessWidget {
+class WxAvatar extends StatelessWidget {
   /// Create an avatar widget
-  const Avatar({
+  const WxAvatar({
     super.key,
     this.curve,
     this.duration,
@@ -42,7 +42,7 @@ class Avatar extends StatelessWidget {
   });
 
   /// Create an avatar widget with circle shape
-  const Avatar.circle({
+  const WxAvatar.circle({
     super.key,
     this.curve,
     this.duration,
@@ -156,7 +156,7 @@ class Avatar extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   /// The style to be applied to the avatar.
-  final AvatarStyle? style;
+  final WxAvatarStyle? style;
 
   /// Tooltip string to be used for the body area of the button.
   final String? tooltip;
@@ -185,7 +185,7 @@ class Avatar extends StatelessWidget {
   /// The widget below this widget in the tree.
   final Widget? child;
 
-  AvatarStyle get effectiveStyle => AvatarStyle.from(style).copyWith(
+  WxAvatarStyle get effectiveStyle => WxAvatarStyle.from(style).copyWith(
         size: size,
         shape: shape,
         margin: margin,
@@ -210,7 +210,7 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AvatarTheme.of(context);
+    final theme = WxAvatarTheme.of(context);
     final themedStyle = theme.style.merge(effectiveStyle);
     final effectiveCurve = curve ?? theme.curve;
     final effectiveDuration = duration ?? theme.duration;
@@ -298,6 +298,6 @@ class Avatar extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AvatarStyle?>('style', style));
+    properties.add(DiagnosticsProperty<WxAvatarStyle?>('style', style));
   }
 }

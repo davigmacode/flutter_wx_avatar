@@ -5,9 +5,9 @@ import 'package:wx_box/wx_box.dart';
 
 /// The style to be applied to avatar widget
 @immutable
-class AvatarStyle with Diagnosticable {
+class WxAvatarStyle with Diagnosticable {
   /// Create a raw avatar's style
-  const AvatarStyle({
+  const WxAvatarStyle({
     this.size,
     this.shape,
     this.margin,
@@ -31,7 +31,7 @@ class AvatarStyle with Diagnosticable {
   });
 
   /// Create an avatar's style with circle shape
-  const AvatarStyle.circle({
+  const WxAvatarStyle.circle({
     double? radius,
     this.shape,
     this.margin,
@@ -55,7 +55,7 @@ class AvatarStyle with Diagnosticable {
   }) : size = radius != null ? radius * 2 : null;
 
   /// Create a avatar's style from another style
-  AvatarStyle.from(AvatarStyle? other)
+  WxAvatarStyle.from(WxAvatarStyle? other)
       : size = other?.size,
         shape = other?.shape,
         margin = other?.margin,
@@ -77,8 +77,8 @@ class AvatarStyle with Diagnosticable {
         borderStyle = other?.borderStyle,
         borderRadius = other?.borderRadius;
 
-  /// An [AvatarStyle] with some reasonable default values.
-  static const defaults = AvatarStyle(
+  /// An [WxAvatarStyle] with some reasonable default values.
+  static const defaults = WxAvatarStyle(
     size: 40.0,
     shape: BoxShape.rectangle,
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -209,9 +209,9 @@ class AvatarStyle with Diagnosticable {
   }
 
   /// Linearly interpolate between two icon theme data objects.
-  static AvatarStyle? lerp(AvatarStyle? a, AvatarStyle? b, double t) {
+  static WxAvatarStyle? lerp(WxAvatarStyle? a, WxAvatarStyle? b, double t) {
     if (a == null && b == null) return null;
-    return AvatarStyle(
+    return WxAvatarStyle(
       size: lerpDouble(a?.size, b?.size, t),
       shape: t < 0.5 ? a?.shape : b?.shape,
       margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
@@ -238,9 +238,9 @@ class AvatarStyle with Diagnosticable {
     );
   }
 
-  /// Creates a copy of this [AvatarStyle] but with
+  /// Creates a copy of this [WxAvatarStyle] but with
   /// the given fields replaced with the new values.
-  AvatarStyle copyWith({
+  WxAvatarStyle copyWith({
     double? size,
     BoxShape? shape,
     EdgeInsetsGeometry? margin,
@@ -263,7 +263,7 @@ class AvatarStyle with Diagnosticable {
     BorderStyle? borderStyle,
     BorderRadius? borderRadius,
   }) {
-    return AvatarStyle(
+    return WxAvatarStyle(
       size: size ?? this.size,
       shape: shape ?? this.shape,
       margin: margin ?? this.margin,
@@ -287,9 +287,9 @@ class AvatarStyle with Diagnosticable {
     );
   }
 
-  /// Creates a copy of this [AvatarStyle] but with
+  /// Creates a copy of this [WxAvatarStyle] but with
   /// the given fields replaced with the new values.
-  AvatarStyle merge(AvatarStyle? other) {
+  WxAvatarStyle merge(WxAvatarStyle? other) {
     // if null return current object
     if (other == null) return this;
 
@@ -343,7 +343,7 @@ class AvatarStyle with Diagnosticable {
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    return other is AvatarStyle && mapEquals(other.toMap(), toMap());
+    return other is WxAvatarStyle && mapEquals(other.toMap(), toMap());
   }
 
   @override

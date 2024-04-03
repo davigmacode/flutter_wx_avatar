@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'theme_data.dart';
 
 @immutable
-class AvatarThemeDefaults extends AvatarThemeData {
-  AvatarThemeDefaults(
+class WxAvatarThemeDefaults extends WxAvatarThemeData {
+  WxAvatarThemeDefaults(
     this.context, [
-    AvatarThemeData? other,
+    WxAvatarThemeData? other,
   ]) : super.from(other);
 
   final BuildContext context;

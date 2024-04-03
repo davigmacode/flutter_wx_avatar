@@ -4,13 +4,13 @@ import 'package:wx_utils/wx_utils.dart';
 import 'style.dart';
 import 'theme_preset.dart';
 
-/// Defines the visual properties of [Avatar].
+/// Defines the visual properties of [WxAvatar].
 ///
-/// Descendant widgets obtain the current [AvatarThemeData] object using
-/// `AvatarTheme.of(context)`. Instances of [AvatarThemeData]
-/// can be customized with [AvatarThemeData.copyWith] or [AvatarThemeData.merge].
+/// Descendant widgets obtain the current [WxAvatarThemeData] object using
+/// `WxAvatarTheme.of(context)`. Instances of [WxAvatarThemeData]
+/// can be customized with [WxAvatarThemeData.copyWith] or [WxAvatarThemeData.merge].
 @immutable
-class AvatarThemeData extends ThemeExtension<AvatarThemeData>
+class WxAvatarThemeData extends ThemeExtension<WxAvatarThemeData>
     with Diagnosticable {
   /// The curve to apply when animating the parameters of avatar widget.
   final Curve curve;
@@ -18,51 +18,51 @@ class AvatarThemeData extends ThemeExtension<AvatarThemeData>
   /// The duration over which to animate the parameters of avatar widget.
   final Duration duration;
 
-  /// The [AvatarStyle] to be applied to the avatar widget
-  final AvatarStyle style;
+  /// The [WxAvatarStyle] to be applied to the avatar widget
+  final WxAvatarStyle style;
 
   /// Creates a theme data that can be used for [AvatarTheme].
-  const AvatarThemeData({
+  const WxAvatarThemeData({
     required this.curve,
     required this.duration,
     required this.style,
   });
 
-  /// An [AvatarThemeData] with some reasonable default values.
-  static const fallback = AvatarThemeData(
+  /// An [WxAvatarThemeData] with some reasonable default values.
+  static const fallback = WxAvatarThemeData(
     curve: Curves.linear,
     duration: Duration(milliseconds: 200),
-    style: AvatarStyle.defaults,
+    style: WxAvatarStyle.defaults,
   );
 
-  /// Creates an [AvatarThemeData] from another one that probably null.
-  AvatarThemeData.from([AvatarThemeData? other])
+  /// Creates an [WxAvatarThemeData] from another one that probably null.
+  WxAvatarThemeData.from([WxAvatarThemeData? other])
       : curve = other?.curve ?? fallback.curve,
         duration = other?.duration ?? fallback.duration,
         style = other?.style ?? fallback.style;
 
-  /// An [AvatarThemeData] with default values.
-  factory AvatarThemeData.defaults(BuildContext context) =>
-      AvatarThemeDefaults(context);
+  /// An [WxAvatarThemeData] with default values.
+  factory WxAvatarThemeData.defaults(BuildContext context) =>
+      WxAvatarThemeDefaults(context);
 
-  /// Creates a copy of this [AvatarThemeData] but with
+  /// Creates a copy of this [WxAvatarThemeData] but with
   /// the given fields replaced with the new values.
   @override
-  AvatarThemeData copyWith({
+  WxAvatarThemeData copyWith({
     Curve? curve,
     Duration? duration,
-    AvatarStyle? style,
+    WxAvatarStyle? style,
   }) {
-    return AvatarThemeData(
+    return WxAvatarThemeData(
       curve: curve ?? this.curve,
       duration: duration ?? this.duration,
       style: this.style.merge(style),
     );
   }
 
-  /// Creates a copy of this [AvatarThemeData] but with
+  /// Creates a copy of this [WxAvatarThemeData] but with
   /// the given fields replaced with the new values.
-  AvatarThemeData merge(AvatarThemeData? other) {
+  WxAvatarThemeData merge(WxAvatarThemeData? other) {
     // if null return current object
     if (other == null) return this;
 
@@ -74,12 +74,12 @@ class AvatarThemeData extends ThemeExtension<AvatarThemeData>
   }
 
   @override
-  AvatarThemeData lerp(ThemeExtension<AvatarThemeData>? other, double t) {
-    if (other is! AvatarThemeData) return this;
-    return AvatarThemeData(
+  WxAvatarThemeData lerp(ThemeExtension<WxAvatarThemeData>? other, double t) {
+    if (other is! WxAvatarThemeData) return this;
+    return WxAvatarThemeData(
       curve: lerpEnum(curve, other.curve, t) ?? curve,
       duration: lerpEnum(duration, other.duration, t) ?? duration,
-      style: AvatarStyle.lerp(style, other.style, t) ?? style,
+      style: WxAvatarStyle.lerp(style, other.style, t) ?? style,
     );
   }
 
@@ -92,7 +92,7 @@ class AvatarThemeData extends ThemeExtension<AvatarThemeData>
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    return other is AvatarThemeData && mapEquals(other.toMap(), toMap());
+    return other is WxAvatarThemeData && mapEquals(other.toMap(), toMap());
   }
 
   @override
