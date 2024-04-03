@@ -6,7 +6,7 @@ import 'theme.dart';
 import 'style.dart';
 
 /// Display user profile image, initials or fallback icon
-class Avatar extends StatefulWidget {
+class Avatar extends StatelessWidget {
   /// Create an avatar widget
   const Avatar({
     Key? key,
@@ -44,38 +44,27 @@ class Avatar extends StatefulWidget {
   final Widget? child;
 
   @override
-  State<Avatar> createState() => _AvatarState();
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AvatarStyle?>('style', style));
-  }
-}
-
-class _AvatarState extends State<Avatar> {
-  @override
   Widget build(BuildContext context) {
     final theme = AvatarTheme.of(context);
-    final style = theme.style.merge(widget.style);
-    final curve = widget.curve ?? theme.curve;
-    final duration = widget.duration ?? theme.duration;
-    Widget? result = widget.child;
+    final themedStyle = theme.style.merge(style);
+    final effectiveCurve = curve ?? theme.curve;
+    final effectiveDuration = duration ?? theme.duration;
+    Widget? result = child;
 
     if (result != null) {
       result = Center(
         child: MediaQuery.withNoTextScaling(
           child: AnimatedDefaultTextStyle(
-            curve: curve,
-            duration: duration,
-            style: style.effectiveForegroundStyle,
+            curve: effectiveCurve,
+            duration: effectiveDuration,
+            style: themedStyle.effectiveForegroundStyle,
             child: AnimatedIconTheme.merge(
               data: IconThemeData(
-                color: style.effectiveForegroundStyle.color,
-                size: style.effectiveForegroundStyle.fontSize,
+                color: themedStyle.effectiveForegroundStyle.color,
+                size: themedStyle.effectiveForegroundStyle.fontSize,
               ),
-              curve: curve,
-              duration: duration,
+              curve: effectiveCurve,
+              duration: effectiveDuration,
               child: result,
             ),
           ),
@@ -83,12 +72,12 @@ class _AvatarState extends State<Avatar> {
       );
     }
 
-    if (widget.image != null) {
+    if (image != null) {
       result = DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: widget.image!,
-            onError: widget.onImageError,
+            image: image!,
+            onError: onImageError,
             fit: BoxFit.cover,
           ),
         ),
@@ -97,30 +86,36 @@ class _AvatarState extends State<Avatar> {
     }
 
     result = WxAnimatedBox(
-      curve: curve,
-      duration: duration,
-      width: style.effectiveSize.width,
-      height: style.effectiveSize.height,
-      margin: style.margin,
-      clipBehavior: style.clipBehavior,
-      shadowColor: style.shadowColor,
-      elevation: style.elevation,
-      color: style.effectiveBackgroundColor,
-      borderColor: style.effectiveBorderColor,
-      borderWidth: style.borderWidth,
-      borderStyle: style.borderStyle,
-      borderRadius: style.borderRadius,
-      shape: WxBoxShape.values[style.shape?.index ?? 0],
+      curve: effectiveCurve,
+      duration: effectiveDuration,
+      width: themedStyle.effectiveSize,
+      height: themedStyle.effectiveSize,
+      margin: themedStyle.margin,
+      clipBehavior: themedStyle.clipBehavior,
+      shadowColor: themedStyle.shadowColor,
+      elevation: themedStyle.elevation,
+      color: themedStyle.effectiveBackgroundColor,
+      borderColor: themedStyle.effectiveBorderColor,
+      borderWidth: themedStyle.borderWidth,
+      borderStyle: themedStyle.borderStyle,
+      borderRadius: themedStyle.borderRadius,
+      shape: themedStyle.effectiveShape,
       child: result,
     );
 
-    if (widget.tooltip != null) {
+    if (tooltip != null) {
       result = Tooltip(
-        message: widget.tooltip,
+        message: tooltip,
         child: result,
       );
     }
 
     return result;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<AvatarStyle?>('style', style));
   }
 }

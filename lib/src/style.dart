@@ -77,10 +77,10 @@ class AvatarStyle with Diagnosticable {
   final BorderStyle? borderStyle;
 
   /// A square [Size] from [size] dimension
-  Size get effectiveSize => Size.square(size ?? defaults.size!);
+  double get effectiveSize => size ?? defaults.size!;
 
   /// [WxBoxShape] from [BoxShape] value
-  WxBoxShape get effectiveBoxShape => WxBoxShape.values[shape?.index ?? 0];
+  WxBoxShape get effectiveShape => WxBoxShape.values[shape?.index ?? 0];
 
   /// Computed background color with opacity and alpha
   Color? get effectiveBackgroundColor {
