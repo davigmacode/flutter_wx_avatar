@@ -14,6 +14,8 @@ class WxAvatar extends StatelessWidget {
     this.curve,
     this.duration,
     this.size,
+    this.minSize,
+    this.maxSize,
     this.shape,
     this.margin,
     this.clipBehavior,
@@ -41,7 +43,9 @@ class WxAvatar extends StatelessWidget {
     this.baseImage,
     this.image,
     this.child,
-  });
+  })  : assert(size == null || (minSize == null && maxSize == null)),
+        assert(baseImage != null || onBaseImageError == null),
+        assert(image != null || onImageError == null);
 
   /// Create an avatar widget with circle shape
   const WxAvatar.circle({
@@ -50,6 +54,8 @@ class WxAvatar extends StatelessWidget {
     this.curve,
     this.duration,
     double? radius,
+    double? minRadius,
+    double? maxRadius,
     this.margin,
     this.clipBehavior,
     this.shadowColor,
@@ -76,8 +82,13 @@ class WxAvatar extends StatelessWidget {
     this.baseImage,
     this.image,
     this.child,
-  })  : shape = BoxShape.circle,
-        size = radius != null ? radius * 2 : null;
+  })  : assert(radius == null || (minRadius == null && maxRadius == null)),
+        assert(baseImage != null || onBaseImageError == null),
+        assert(image != null || onImageError == null),
+        shape = BoxShape.circle,
+        size = radius != null ? radius * 2 : null,
+        minSize = minRadius != null ? minRadius * 2 : null,
+        maxSize = maxRadius != null ? maxRadius * 2 : null;
 
   /// Whether to animate text style, icon theme, and other decoration on value changed.
   final bool animated;
@@ -93,6 +104,12 @@ class WxAvatar extends StatelessWidget {
 
   /// The size of the avatar
   final double? size;
+
+  /// The minimum size of the avatar
+  final double? minSize;
+
+  /// The maximum size of the avatar
+  final double? maxSize;
 
   /// Empty space to surround the outside avatar widget.
   final EdgeInsetsGeometry? margin;
@@ -197,6 +214,8 @@ class WxAvatar extends StatelessWidget {
 
   WxAvatarStyle get effectiveStyle => WxAvatarStyle.from(style).copyWith(
         size: size,
+        minSize: minSize,
+        maxSize: maxSize,
         shape: shape,
         margin: margin,
         clipBehavior: clipBehavior,
@@ -300,8 +319,7 @@ class WxAvatar extends StatelessWidget {
       result = WxAnimatedBox(
         curve: effectiveCurve,
         duration: effectiveDuration,
-        width: themedStyle.effectiveSize,
-        height: themedStyle.effectiveSize,
+        constraints: themedStyle.constraints,
         margin: themedStyle.margin,
         clipBehavior: themedStyle.clipBehavior,
         shadowColor: themedStyle.shadowColor,
@@ -317,8 +335,7 @@ class WxAvatar extends StatelessWidget {
       );
     } else {
       result = WxBox(
-        width: themedStyle.effectiveSize,
-        height: themedStyle.effectiveSize,
+        constraints: themedStyle.constraints,
         margin: themedStyle.margin,
         clipBehavior: themedStyle.clipBehavior,
         shadowColor: themedStyle.shadowColor,

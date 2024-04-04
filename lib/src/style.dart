@@ -9,6 +9,8 @@ class WxAvatarStyle with Diagnosticable {
   /// Create a raw avatar's style
   const WxAvatarStyle({
     this.size,
+    this.minSize,
+    this.maxSize,
     this.shape,
     this.margin,
     this.clipBehavior,
@@ -34,7 +36,8 @@ class WxAvatarStyle with Diagnosticable {
   /// Create an avatar's style with circle shape
   const WxAvatarStyle.circle({
     double? radius,
-    this.shape,
+    double? minRadius,
+    double? maxRadius,
     this.margin,
     this.clipBehavior,
     this.shadowColor,
@@ -54,11 +57,16 @@ class WxAvatarStyle with Diagnosticable {
     this.borderAlign,
     this.borderStyle,
     this.borderRadius,
-  }) : size = radius != null ? radius * 2 : null;
+  })  : shape = BoxShape.circle,
+        size = radius != null ? radius * 2 : null,
+        minSize = minRadius != null ? minRadius * 2 : null,
+        maxSize = maxRadius != null ? maxRadius * 2 : null;
 
   /// Create a avatar's style from another style
   WxAvatarStyle.from(WxAvatarStyle? other)
       : size = other?.size,
+        minSize = other?.minSize,
+        maxSize = other?.maxSize,
         shape = other?.shape,
         margin = other?.margin,
         clipBehavior = other?.clipBehavior,
@@ -96,6 +104,12 @@ class WxAvatarStyle with Diagnosticable {
   /// The size of the avatar
   final double? size;
 
+  /// The minimum size of the avatar
+  final double? minSize;
+
+  /// The maximum size of the avatar
+  final double? maxSize;
+
   /// Empty space to surround the outside avatar widget.
   final EdgeInsetsGeometry? margin;
 
@@ -114,7 +128,7 @@ class WxAvatarStyle with Diagnosticable {
 
   /// The style to be applied to the avatar's label.
   ///
-  /// The default label style is [TextTheme.bodyText1] from the overall
+  /// The default label style is [TextTheme.titleMedium] from the overall
   /// theme's [ThemeData.textTheme].
   //
   /// This only has an effect on widgets that respect the [DefaultTextStyle],
@@ -167,8 +181,28 @@ class WxAvatarStyle with Diagnosticable {
   /// The radii for each corner of the avatar's border.
   final BorderRadius? borderRadius;
 
-  /// A square [Size] from [size] dimension
-  double get effectiveSize => size ?? defaults.size!;
+  BoxConstraints get constraints => BoxConstraints(
+        minHeight: effectiveMinSize,
+        minWidth: effectiveMinSize,
+        maxWidth: effectiveMaxSize,
+        maxHeight: effectiveMaxSize,
+      );
+
+  double get effectiveMinSize {
+    if (size == null && minSize == null && maxSize == null) {
+      return defaults.size!;
+    }
+    const defaultMinSize = 0.0;
+    return size ?? minSize ?? defaultMinSize;
+  }
+
+  double get effectiveMaxSize {
+    if (size == null && minSize == null && maxSize == null) {
+      return defaults.size!;
+    }
+    const defaultMaxSize = double.infinity;
+    return size ?? maxSize ?? defaultMaxSize;
+  }
 
   /// [WxBoxShape] from [BoxShape] value
   BoxShape get effectiveShape => shape ?? defaults.shape!;
@@ -227,6 +261,8 @@ class WxAvatarStyle with Diagnosticable {
   /// the given fields replaced with the new values.
   WxAvatarStyle copyWith({
     double? size,
+    double? minSize,
+    double? maxSize,
     BoxShape? shape,
     EdgeInsetsGeometry? margin,
     Clip? clipBehavior,
@@ -251,6 +287,8 @@ class WxAvatarStyle with Diagnosticable {
   }) {
     return WxAvatarStyle(
       size: size ?? this.size,
+      minSize: minSize ?? this.minSize,
+      maxSize: maxSize ?? this.maxSize,
       shape: shape ?? this.shape,
       margin: margin ?? this.margin,
       clipBehavior: clipBehavior ?? this.clipBehavior,
@@ -282,6 +320,8 @@ class WxAvatarStyle with Diagnosticable {
 
     return copyWith(
       size: other.size,
+      minSize: other.minSize,
+      maxSize: other.maxSize,
       shape: other.shape,
       margin: other.margin,
       clipBehavior: other.clipBehavior,
@@ -310,6 +350,8 @@ class WxAvatarStyle with Diagnosticable {
     if (a == null && b == null) return null;
     return WxAvatarStyle(
       size: lerpDouble(a?.size, b?.size, t),
+      minSize: lerpDouble(a?.minSize, b?.minSize, t),
+      maxSize: lerpDouble(a?.maxSize, b?.maxSize, t),
       shape: t < 0.5 ? a?.shape : b?.shape,
       margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
       clipBehavior: t < 0.5 ? a?.clipBehavior : b?.clipBehavior,
@@ -338,6 +380,8 @@ class WxAvatarStyle with Diagnosticable {
 
   Map<String, dynamic> toMap() => {
         'size': size,
+        'minSize': minSize,
+        'maxSize': maxSize,
         'shape': shape,
         'margin': margin,
         'clipBehavior': clipBehavior,
