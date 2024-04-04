@@ -43,6 +43,7 @@ class MyHomePage extends StatelessWidget {
                   spacing: 20,
                   children: [
                     const WxAvatar(
+                      backgroundColor: Colors.red,
                       image: NetworkImage('https://i.pravatar.cc/50?u=2'),
                     ),
                     const WxAvatar(

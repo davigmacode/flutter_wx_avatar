@@ -1,3 +1,9 @@
+## 1.1.0
+
+* Added option to enable or disable animation.
+* Optionally use min and max size.
+* Adjust sdk constraints.
+
 ## 1.0.0
 
 * Added avatar widget.
