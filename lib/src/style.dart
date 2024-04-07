@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:wx_utils/wx_utils.dart';
-import 'package:wx_box/wx_box.dart';
 
 /// The style to be applied to avatar widget
 @immutable
@@ -11,7 +10,7 @@ class WxAvatarStyle with Diagnosticable {
     this.size,
     this.minSize,
     this.maxSize,
-    this.shape,
+    this.border,
     this.margin,
     this.clipBehavior,
     this.shadowColor,
@@ -57,7 +56,7 @@ class WxAvatarStyle with Diagnosticable {
     this.borderAlign,
     this.borderStyle,
     this.borderRadius,
-  })  : shape = BoxShape.circle,
+  })  : border = const CircleBorder(),
         size = radius != null ? radius * 2 : null,
         minSize = minRadius != null ? minRadius * 2 : null,
         maxSize = maxRadius != null ? maxRadius * 2 : null;
@@ -67,7 +66,7 @@ class WxAvatarStyle with Diagnosticable {
       : size = other?.size,
         minSize = other?.minSize,
         maxSize = other?.maxSize,
-        shape = other?.shape,
+        border = other?.border,
         margin = other?.margin,
         clipBehavior = other?.clipBehavior,
         shadowColor = other?.shadowColor,
@@ -91,15 +90,15 @@ class WxAvatarStyle with Diagnosticable {
   /// An [WxAvatarStyle] with some reasonable default values.
   static const defaults = WxAvatarStyle(
     size: 40.0,
-    shape: BoxShape.rectangle,
+    border: RoundedRectangleBorder(),
     borderRadius: BorderRadius.all(Radius.circular(4)),
     borderWidth: 1.0,
     borderStyle: BorderStyle.none,
     borderAlign: BorderSide.strokeAlignOutside,
   );
 
-  /// The type of avatar's shape.
-  final BoxShape? shape;
+  /// A border to draw.
+  final OutlinedBorder? border;
 
   /// The size of the avatar
   final double? size;
@@ -204,17 +203,17 @@ class WxAvatarStyle with Diagnosticable {
     return size ?? maxSize ?? defaultMaxSize;
   }
 
-  /// [WxBoxShape] from [BoxShape] value
-  BoxShape get effectiveShape => shape ?? defaults.shape!;
-
-  /// [WxBoxShape] from [BoxShape] value
-  WxBoxShape get wxBoxShape => WxBoxShape.values[effectiveShape.index];
+  /// A border to draw with default value [RoundRectangleBorder]
+  OutlinedBorder get effectiveShape => border ?? defaults.border!;
 
   /// Whether or not this is rectangle shape
-  bool get isRectangle => effectiveShape == BoxShape.rectangle;
+  bool get isRectangle =>
+      effectiveShape is RoundedRectangleBorder ||
+      effectiveShape is BeveledRectangleBorder ||
+      effectiveShape is ContinuousRectangleBorder;
 
   /// Whether or not this is circle shape
-  bool get isCircle => !isRectangle;
+  bool get isCircle => effectiveShape is CircleBorder;
 
   /// Computed background color with opacity and alpha
   Color? get effectiveBackgroundColor {
@@ -263,7 +262,7 @@ class WxAvatarStyle with Diagnosticable {
     double? size,
     double? minSize,
     double? maxSize,
-    BoxShape? shape,
+    OutlinedBorder? border,
     EdgeInsetsGeometry? margin,
     Clip? clipBehavior,
     Color? shadowColor,
@@ -289,7 +288,7 @@ class WxAvatarStyle with Diagnosticable {
       size: size ?? this.size,
       minSize: minSize ?? this.minSize,
       maxSize: maxSize ?? this.maxSize,
-      shape: shape ?? this.shape,
+      border: border ?? this.border,
       margin: margin ?? this.margin,
       clipBehavior: clipBehavior ?? this.clipBehavior,
       shadowColor: shadowColor ?? this.shadowColor,
@@ -322,7 +321,7 @@ class WxAvatarStyle with Diagnosticable {
       size: other.size,
       minSize: other.minSize,
       maxSize: other.maxSize,
-      shape: other.shape,
+      border: other.border,
       margin: other.margin,
       clipBehavior: other.clipBehavior,
       shadowColor: other.shadowColor,
@@ -352,7 +351,7 @@ class WxAvatarStyle with Diagnosticable {
       size: lerpDouble(a?.size, b?.size, t),
       minSize: lerpDouble(a?.minSize, b?.minSize, t),
       maxSize: lerpDouble(a?.maxSize, b?.maxSize, t),
-      shape: t < 0.5 ? a?.shape : b?.shape,
+      border: OutlinedBorder.lerp(a?.border, b?.border, t),
       margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
       clipBehavior: t < 0.5 ? a?.clipBehavior : b?.clipBehavior,
       shadowColor: Color.lerp(a?.shadowColor, b?.shadowColor, t),
@@ -382,7 +381,7 @@ class WxAvatarStyle with Diagnosticable {
         'size': size,
         'minSize': minSize,
         'maxSize': maxSize,
-        'shape': shape,
+        'border': border,
         'margin': margin,
         'clipBehavior': clipBehavior,
         'shadowColor': shadowColor,

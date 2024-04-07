@@ -16,7 +16,7 @@ class WxAvatar extends StatelessWidget {
     this.size,
     this.minSize,
     this.maxSize,
-    this.shape,
+    this.border,
     this.margin,
     this.clipBehavior,
     this.shadowColor,
@@ -85,7 +85,7 @@ class WxAvatar extends StatelessWidget {
   })  : assert(radius == null || (minRadius == null && maxRadius == null)),
         assert(baseImage != null || onBaseImageError == null),
         assert(image != null || onImageError == null),
-        shape = BoxShape.circle,
+        border = const CircleBorder(),
         size = radius != null ? radius * 2 : null,
         minSize = minRadius != null ? minRadius * 2 : null,
         maxSize = maxRadius != null ? maxRadius * 2 : null;
@@ -99,8 +99,8 @@ class WxAvatar extends StatelessWidget {
   /// The duration over which to animate the parameters of this widget.
   final Duration? duration;
 
-  /// The type of avatar's shape.
-  final BoxShape? shape;
+  /// A border to draw.
+  final OutlinedBorder? border;
 
   /// The size of the avatar
   final double? size;
@@ -216,7 +216,7 @@ class WxAvatar extends StatelessWidget {
         size: size,
         minSize: minSize,
         maxSize: maxSize,
-        shape: shape,
+        border: border,
         margin: margin,
         clipBehavior: clipBehavior,
         shadowColor: shadowColor,
@@ -283,33 +283,41 @@ class WxAvatar extends StatelessWidget {
     }
 
     if (baseImage != null) {
+      final baseImageDecoration = DecorationImage(
+        image: baseImage!,
+        onError: onBaseImageError,
+        fit: BoxFit.cover,
+      );
       result = DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: baseImage!,
-            onError: onBaseImageError,
-            fit: BoxFit.cover,
-          ),
-          shape: themedStyle.effectiveShape,
-          borderRadius:
-              themedStyle.isRectangle ? themedStyle.borderRadius : null,
-        ),
+        decoration: themedStyle.isRectangle
+            ? BoxDecoration(
+                image: baseImageDecoration,
+                borderRadius: themedStyle.borderRadius,
+              )
+            : ShapeDecoration(
+                image: baseImageDecoration,
+                shape: themedStyle.effectiveShape,
+              ),
         child: result,
       );
     }
 
     if (image != null) {
+      final imageDecoration = DecorationImage(
+        image: image!,
+        onError: onImageError,
+        fit: BoxFit.cover,
+      );
       result = DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: image!,
-            onError: onImageError,
-            fit: BoxFit.cover,
-          ),
-          shape: themedStyle.effectiveShape,
-          borderRadius:
-              themedStyle.isRectangle ? themedStyle.borderRadius : null,
-        ),
+        decoration: themedStyle.isRectangle
+            ? BoxDecoration(
+                image: imageDecoration,
+                borderRadius: themedStyle.borderRadius,
+              )
+            : ShapeDecoration(
+                image: imageDecoration,
+                shape: themedStyle.effectiveShape,
+              ),
         position: DecorationPosition.foreground,
         child: result,
       );
@@ -330,7 +338,7 @@ class WxAvatar extends StatelessWidget {
         borderStyle: themedStyle.borderStyle,
         borderRadius: themedStyle.borderRadius,
         borderAlign: themedStyle.borderAlign,
-        shape: themedStyle.wxBoxShape,
+        border: themedStyle.border,
         child: result,
       );
     } else {
@@ -346,7 +354,7 @@ class WxAvatar extends StatelessWidget {
         borderStyle: themedStyle.borderStyle,
         borderRadius: themedStyle.borderRadius,
         borderAlign: themedStyle.borderAlign,
-        shape: themedStyle.wxBoxShape,
+        border: themedStyle.border,
         child: result,
       );
     }
