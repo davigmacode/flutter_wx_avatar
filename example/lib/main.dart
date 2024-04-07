@@ -37,16 +37,16 @@ class MyHomePage extends StatelessWidget {
               const SizedBox(height: 40),
               const WxText.displayMedium('WxAvatar'),
               const SizedBox(height: 40),
-              Wrapper(
+              const Wrapper(
                 title: 'Rectangle Shape',
                 child: Wrap(
                   spacing: 20,
                   children: [
-                    const WxAvatar(
+                    WxAvatar(
                       backgroundColor: Colors.red,
                       image: NetworkImage('https://i.pravatar.cc/50?u=2'),
                     ),
-                    const WxAvatar(
+                    WxAvatar(
                       elevation: 3.0,
                       backgroundColor: Colors.red,
                       foregroundStyle: TextStyle(
@@ -60,10 +60,9 @@ class MyHomePage extends StatelessWidget {
                       borderStyle: BorderStyle.solid,
                       borderColor: Colors.black54,
                       borderWidth: 2,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
                       foregroundColor: Colors.black87,
                       foregroundSize: 40,
-                      child: const Icon(Icons.person),
+                      child: Icon(Icons.person),
                     ),
                   ],
                 ),
@@ -90,6 +89,24 @@ class MyHomePage extends StatelessWidget {
                       foregroundColor: Colors.black87,
                       foregroundSize: 30,
                       child: const Icon(Icons.person),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Wrapper(
+                title: 'Custom Shape',
+                child: Wrap(
+                  spacing: 20,
+                  children: [
+                    WxAvatar(
+                      border: StarBorder(points: 12, innerRadiusRatio: .9),
+                      borderStyle: BorderStyle.solid,
+                      borderAlign: 5,
+                      borderWidth: 2,
+                      borderColor: Colors.blue,
+                      backgroundColor: Colors.red,
+                      image: NetworkImage('https://i.pravatar.cc/50?u=2'),
                     ),
                   ],
                 ),
@@ -124,6 +141,7 @@ class MyHomePage extends StatelessWidget {
                   },
                 ),
               ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
