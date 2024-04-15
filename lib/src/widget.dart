@@ -296,23 +296,12 @@ class WxAvatar extends StatelessWidget {
       );
     }
 
+    DecorationImage? baseImageDecoration;
     if (baseImage != null) {
-      final baseImageDecoration = DecorationImage(
+      baseImageDecoration = DecorationImage(
         image: baseImage!,
         onError: onBaseImageError,
         fit: BoxFit.cover,
-      );
-      result = DecoratedBox(
-        decoration: themedStyle.isRectangle
-            ? BoxDecoration(
-                image: baseImageDecoration,
-                borderRadius: themedStyle.borderRadius,
-              )
-            : ShapeDecoration(
-                image: baseImageDecoration,
-                shape: themedStyle.effectiveShape,
-              ),
-        child: result,
       );
     }
 
@@ -348,6 +337,7 @@ class WxAvatar extends StatelessWidget {
         elevation: themedStyle.elevation,
         shadows: themedStyle.shadows,
         gradient: themedStyle.backgroundGradient,
+        image: baseImageDecoration,
         color: themedStyle.effectiveBackgroundColor,
         borderColor: themedStyle.effectiveBorderColor,
         borderWidth: themedStyle.borderWidth,
@@ -366,6 +356,7 @@ class WxAvatar extends StatelessWidget {
         elevation: themedStyle.elevation,
         shadows: themedStyle.shadows,
         gradient: themedStyle.backgroundGradient,
+        image: baseImageDecoration,
         color: themedStyle.effectiveBackgroundColor,
         borderColor: themedStyle.effectiveBorderColor,
         borderWidth: themedStyle.borderWidth,
