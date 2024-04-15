@@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
                   children: [
                     WxAvatar(
                       backgroundColor: Colors.red,
-                      image: NetworkImage('https://i.pravatar.cc/50?u=2'),
+                      image: NetworkImage('https://i.pravatar.cc/50?u=6'),
                     ),
                     WxAvatar(
                       elevation: 3.0,
@@ -97,16 +97,41 @@ class MyHomePage extends StatelessWidget {
               const Wrapper(
                 title: 'Custom Shape',
                 child: Wrap(
-                  spacing: 20,
+                  spacing: 25,
                   children: [
                     WxAvatar(
                       border: StarBorder(points: 12, innerRadiusRatio: .9),
                       borderStyle: BorderStyle.solid,
-                      borderAlign: 5,
+                      borderOffset: 5,
                       borderWidth: 2,
                       borderColor: Colors.blue,
                       backgroundColor: Colors.red,
-                      image: NetworkImage('https://i.pravatar.cc/50?u=2'),
+                      image: NetworkImage('https://i.pravatar.cc/50?u=7'),
+                    ),
+                    WxAvatar(
+                      border: StarBorder(
+                        points: 8,
+                        innerRadiusRatio: .7,
+                        pointRounding: .9,
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.green,
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
+                      backgroundColor: Colors.red,
+                      backgroundGradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.blue,
+                          Colors.red,
+                        ],
+                      ),
+                      child: Text('Wx'),
                     ),
                   ],
                 ),
