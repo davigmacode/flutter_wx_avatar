@@ -1,3 +1,11 @@
+## 3.0.0
+
+* Updated to wx_box v4.0.0.
+* Renamed borderAlign to borderOffset.
+* Renamed shadowColor to elevationColor.
+* Added option to configure shadows and gradient.
+* Use WxBox to render base image.
+
 ## 2.0.0
 
 * Use wx_box v3.0.0.
