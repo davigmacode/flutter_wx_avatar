@@ -13,13 +13,15 @@ class WxAvatarStyle with Diagnosticable {
     this.border,
     this.margin,
     this.clipBehavior,
-    this.shadowColor,
+    this.elevationColor,
     this.elevation,
+    this.shadows,
     this.foregroundStyle,
     this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
+    this.backgroundGradient,
     this.backgroundColor,
     this.backgroundOpacity,
     this.backgroundAlpha,
@@ -27,7 +29,7 @@ class WxAvatarStyle with Diagnosticable {
     this.borderOpacity,
     this.borderAlpha,
     this.borderWidth,
-    this.borderAlign,
+    this.borderOffset,
     this.borderStyle,
     this.borderRadius,
   });
@@ -39,13 +41,15 @@ class WxAvatarStyle with Diagnosticable {
     double? maxRadius,
     this.margin,
     this.clipBehavior,
-    this.shadowColor,
+    this.elevationColor,
     this.elevation,
+    this.shadows,
     this.foregroundStyle,
     this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
+    this.backgroundGradient,
     this.backgroundColor,
     this.backgroundOpacity,
     this.backgroundAlpha,
@@ -53,7 +57,7 @@ class WxAvatarStyle with Diagnosticable {
     this.borderOpacity,
     this.borderAlpha,
     this.borderWidth,
-    this.borderAlign,
+    this.borderOffset,
     this.borderStyle,
     this.borderRadius,
   })  : border = const CircleBorder(),
@@ -69,13 +73,15 @@ class WxAvatarStyle with Diagnosticable {
         border = other?.border,
         margin = other?.margin,
         clipBehavior = other?.clipBehavior,
-        shadowColor = other?.shadowColor,
+        elevationColor = other?.elevationColor,
         elevation = other?.elevation,
+        shadows = other?.shadows,
         foregroundStyle = other?.foregroundStyle,
         foregroundSize = other?.foregroundSize,
         foregroundColor = other?.foregroundColor,
         foregroundOpacity = other?.foregroundOpacity,
         foregroundAlpha = other?.foregroundAlpha,
+        backgroundGradient = other?.backgroundGradient,
         backgroundColor = other?.backgroundColor,
         backgroundOpacity = other?.backgroundOpacity,
         backgroundAlpha = other?.backgroundAlpha,
@@ -83,7 +89,7 @@ class WxAvatarStyle with Diagnosticable {
         borderOpacity = other?.borderOpacity,
         borderAlpha = other?.borderAlpha,
         borderWidth = other?.borderWidth,
-        borderAlign = other?.borderAlign,
+        borderOffset = other?.borderOffset,
         borderStyle = other?.borderStyle,
         borderRadius = other?.borderRadius;
 
@@ -94,7 +100,7 @@ class WxAvatarStyle with Diagnosticable {
     borderRadius: BorderRadius.all(Radius.circular(4)),
     borderWidth: 1.0,
     borderStyle: BorderStyle.none,
-    borderAlign: BorderSide.strokeAlignOutside,
+    borderOffset: BorderSide.strokeAlignOutside,
   );
 
   /// A border to draw.
@@ -118,12 +124,15 @@ class WxAvatarStyle with Diagnosticable {
   final Clip? clipBehavior;
 
   /// When [elevation] is non zero the color to use for the avatar's shadow color.
-  final Color? shadowColor;
+  final Color? elevationColor;
 
   /// The avatar's z-coordinate relative to the parent at which to place this physical object.
   ///
   /// The value is non-negative.
   final double? elevation;
+
+  /// A list of shadows cast by the [border].
+  final List<BoxShadow>? shadows;
 
   /// The style to be applied to the avatar's label.
   ///
@@ -145,6 +154,11 @@ class WxAvatarStyle with Diagnosticable {
 
   /// Alpha to be apply to [foregroundColor].
   final int? foregroundAlpha;
+
+  /// A gradient to use when filling the shape.
+  ///
+  /// If a [backgroundColor] is specified, [backgroundGradient] must be null.
+  final Gradient? backgroundGradient;
 
   /// Color to be used for the avatar's background.
   final Color? backgroundColor;
@@ -169,7 +183,7 @@ class WxAvatarStyle with Diagnosticable {
 
   /// The relative position of the stroke on a [BorderSide] in an
   /// [OutlinedBorder] or [Border].
-  final double? borderAlign;
+  final double? borderOffset;
 
   /// The style of this side of the avatar's border.
   ///
@@ -217,13 +231,15 @@ class WxAvatarStyle with Diagnosticable {
 
   /// Computed background color with opacity and alpha
   Color? get effectiveBackgroundColor {
-    return backgroundColor != null
-        ? WxColors.withTransparency(
-            backgroundColor!,
-            opacity: backgroundOpacity,
-            alpha: backgroundAlpha,
-          )
-        : WxColors.transparent;
+    return backgroundGradient == null
+        ? backgroundColor != null
+            ? WxColors.withTransparency(
+                backgroundColor!,
+                opacity: backgroundOpacity,
+                alpha: backgroundAlpha,
+              )
+            : null
+        : null;
   }
 
   /// Computed border color with opacity and alpha
@@ -265,14 +281,16 @@ class WxAvatarStyle with Diagnosticable {
     OutlinedBorder? border,
     EdgeInsetsGeometry? margin,
     Clip? clipBehavior,
-    Color? shadowColor,
+    Color? elevationColor,
     double? elevation,
+    List<BoxShadow>? shadows,
     TextStyle? foregroundStyle,
     double? foregroundSize,
     Color? foregroundColor,
     double? foregroundOpacity,
     int? foregroundAlpha,
     double? foregroundSpacing,
+    Gradient? backgroundGradient,
     Color? backgroundColor,
     double? backgroundOpacity,
     int? backgroundAlpha,
@@ -280,7 +298,7 @@ class WxAvatarStyle with Diagnosticable {
     double? borderOpacity,
     int? borderAlpha,
     double? borderWidth,
-    double? borderAlign,
+    double? borderOffset,
     BorderStyle? borderStyle,
     BorderRadius? borderRadius,
   }) {
@@ -291,13 +309,15 @@ class WxAvatarStyle with Diagnosticable {
       border: border ?? this.border,
       margin: margin ?? this.margin,
       clipBehavior: clipBehavior ?? this.clipBehavior,
-      shadowColor: shadowColor ?? this.shadowColor,
+      elevationColor: elevationColor ?? this.elevationColor,
       elevation: elevation ?? this.elevation,
+      shadows: shadows ?? this.shadows,
       foregroundStyle: foregroundStyle ?? this.foregroundStyle,
       foregroundSize: foregroundSize ?? this.foregroundSize,
       foregroundColor: foregroundColor ?? this.foregroundColor,
       foregroundOpacity: foregroundOpacity ?? this.foregroundOpacity,
       foregroundAlpha: foregroundAlpha ?? this.foregroundAlpha,
+      backgroundGradient: backgroundGradient ?? this.backgroundGradient,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       backgroundOpacity: backgroundOpacity ?? this.backgroundOpacity,
       backgroundAlpha: backgroundAlpha ?? this.backgroundAlpha,
@@ -305,7 +325,7 @@ class WxAvatarStyle with Diagnosticable {
       borderOpacity: borderOpacity ?? this.borderOpacity,
       borderAlpha: borderAlpha ?? this.borderAlpha,
       borderWidth: borderWidth ?? this.borderWidth,
-      borderAlign: borderAlign ?? this.borderAlign,
+      borderOffset: borderOffset ?? this.borderOffset,
       borderStyle: borderStyle ?? this.borderStyle,
       borderRadius: borderRadius ?? this.borderRadius,
     );
@@ -324,13 +344,15 @@ class WxAvatarStyle with Diagnosticable {
       border: other.border,
       margin: other.margin,
       clipBehavior: other.clipBehavior,
-      shadowColor: other.shadowColor,
+      elevationColor: other.elevationColor,
       elevation: other.elevation,
+      shadows: other.shadows,
       foregroundStyle: other.foregroundStyle,
       foregroundSize: other.foregroundSize,
       foregroundColor: other.foregroundColor,
       foregroundOpacity: other.foregroundOpacity,
       foregroundAlpha: other.foregroundAlpha,
+      backgroundGradient: other.backgroundGradient,
       backgroundColor: other.backgroundColor,
       backgroundOpacity: other.backgroundOpacity,
       backgroundAlpha: other.backgroundAlpha,
@@ -338,7 +360,7 @@ class WxAvatarStyle with Diagnosticable {
       borderOpacity: other.borderOpacity,
       borderAlpha: other.borderAlpha,
       borderWidth: other.borderWidth,
-      borderAlign: other.borderAlign,
+      borderOffset: other.borderOffset,
       borderStyle: other.borderStyle,
       borderRadius: other.borderRadius,
     );
@@ -354,8 +376,9 @@ class WxAvatarStyle with Diagnosticable {
       border: OutlinedBorder.lerp(a?.border, b?.border, t),
       margin: EdgeInsetsGeometry.lerp(a?.margin, b?.margin, t),
       clipBehavior: t < 0.5 ? a?.clipBehavior : b?.clipBehavior,
-      shadowColor: Color.lerp(a?.shadowColor, b?.shadowColor, t),
+      elevationColor: Color.lerp(a?.elevationColor, b?.elevationColor, t),
       elevation: lerpDouble(a?.elevation, b?.elevation, t),
+      shadows: BoxShadow.lerpList(a?.shadows, b?.shadows, t),
       foregroundStyle:
           TextStyle.lerp(a?.foregroundStyle, b?.foregroundStyle, t),
       foregroundSize: lerpDouble(a?.foregroundSize, b?.foregroundSize, t),
@@ -363,6 +386,8 @@ class WxAvatarStyle with Diagnosticable {
       foregroundOpacity:
           lerpDouble(a?.foregroundOpacity, b?.foregroundOpacity, t),
       foregroundAlpha: lerpInt(a?.foregroundAlpha, b?.foregroundAlpha, t),
+      backgroundGradient:
+          Gradient.lerp(a?.backgroundGradient, b?.backgroundGradient, t),
       backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
       backgroundOpacity:
           lerpDouble(a?.backgroundOpacity, b?.backgroundOpacity, t),
@@ -371,7 +396,7 @@ class WxAvatarStyle with Diagnosticable {
       borderOpacity: lerpDouble(a?.borderOpacity, b?.borderOpacity, t),
       borderAlpha: lerpInt(a?.borderAlpha, b?.borderAlpha, t),
       borderWidth: lerpDouble(a?.borderWidth, b?.borderWidth, t),
-      borderAlign: lerpDouble(a?.borderAlign, b?.borderAlign, t),
+      borderOffset: lerpDouble(a?.borderOffset, b?.borderOffset, t),
       borderStyle: t < 0.5 ? a?.borderStyle : b?.borderStyle,
       borderRadius: BorderRadius.lerp(a?.borderRadius, b?.borderRadius, t),
     );
@@ -384,13 +409,15 @@ class WxAvatarStyle with Diagnosticable {
         'border': border,
         'margin': margin,
         'clipBehavior': clipBehavior,
-        'shadowColor': shadowColor,
+        'elevationColor': elevationColor,
         'elevation': elevation,
+        'shadows': shadows,
         'foregroundStyle': foregroundStyle,
         'foregroundSize': foregroundSize,
         'foregroundColor': foregroundColor,
         'foregroundOpacity': foregroundOpacity,
         'foregroundAlpha': foregroundAlpha,
+        'backgroundGradient': backgroundGradient,
         'backgroundColor': backgroundColor,
         'backgroundOpacity': backgroundOpacity,
         'backgroundAlpha': backgroundAlpha,
@@ -398,7 +425,7 @@ class WxAvatarStyle with Diagnosticable {
         'borderOpacity': borderOpacity,
         'borderAlpha': borderAlpha,
         'borderWidth': borderWidth,
-        'borderAlign': borderAlign,
+        'borderOffset': borderOffset,
         'borderStyle': borderStyle,
         'borderRadius': borderRadius,
       };

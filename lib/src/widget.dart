@@ -19,13 +19,15 @@ class WxAvatar extends StatelessWidget {
     this.border,
     this.margin,
     this.clipBehavior,
-    this.shadowColor,
+    this.elevationColor,
     this.elevation,
+    this.shadows,
     this.foregroundStyle,
     this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
+    this.backgroundGradient,
     this.backgroundColor,
     this.backgroundOpacity,
     this.backgroundAlpha,
@@ -33,7 +35,7 @@ class WxAvatar extends StatelessWidget {
     this.borderOpacity,
     this.borderAlpha,
     this.borderWidth,
-    this.borderAlign,
+    this.borderOffset,
     this.borderStyle,
     this.borderRadius,
     this.style,
@@ -58,13 +60,15 @@ class WxAvatar extends StatelessWidget {
     double? maxRadius,
     this.margin,
     this.clipBehavior,
-    this.shadowColor,
+    this.elevationColor,
     this.elevation,
+    this.shadows,
     this.foregroundStyle,
     this.foregroundSize,
     this.foregroundColor,
     this.foregroundOpacity,
     this.foregroundAlpha,
+    this.backgroundGradient,
     this.backgroundColor,
     this.backgroundOpacity,
     this.backgroundAlpha,
@@ -72,7 +76,7 @@ class WxAvatar extends StatelessWidget {
     this.borderOpacity,
     this.borderAlpha,
     this.borderWidth,
-    this.borderAlign,
+    this.borderOffset,
     this.borderStyle,
     this.borderRadius,
     this.style,
@@ -120,12 +124,15 @@ class WxAvatar extends StatelessWidget {
   final Clip? clipBehavior;
 
   /// When [elevation] is non zero the color to use for the avatar's shadow color.
-  final Color? shadowColor;
+  final Color? elevationColor;
 
   /// The avatar's z-coordinate relative to the parent at which to place this physical object.
   ///
   /// The value is non-negative.
   final double? elevation;
+
+  /// A list of shadows cast by the [border].
+  final List<BoxShadow>? shadows;
 
   /// The style to be applied to the avatar's label.
   ///
@@ -147,6 +154,11 @@ class WxAvatar extends StatelessWidget {
 
   /// Alpha to be apply to [foregroundColor].
   final int? foregroundAlpha;
+
+  /// A gradient to use when filling the shape.
+  ///
+  /// If a [backgroundColor] is specified, [backgroundGradient] must be null.
+  final Gradient? backgroundGradient;
 
   /// Color to be used for the avatar's background.
   final Color? backgroundColor;
@@ -171,7 +183,7 @@ class WxAvatar extends StatelessWidget {
 
   /// The relative position of the stroke on a [BorderSide] in an
   /// [OutlinedBorder] or [Border].
-  final double? borderAlign;
+  final double? borderOffset;
 
   /// The style of this side of the avatar's border.
   ///
@@ -219,13 +231,15 @@ class WxAvatar extends StatelessWidget {
         border: border,
         margin: margin,
         clipBehavior: clipBehavior,
-        shadowColor: shadowColor,
+        elevationColor: elevationColor,
         elevation: elevation,
+        shadows: shadows,
         foregroundStyle: foregroundStyle,
         foregroundSize: foregroundSize,
         foregroundColor: foregroundColor,
         foregroundOpacity: foregroundOpacity,
         foregroundAlpha: foregroundAlpha,
+        backgroundGradient: backgroundGradient,
         backgroundColor: backgroundColor,
         backgroundOpacity: backgroundOpacity,
         backgroundAlpha: backgroundAlpha,
@@ -233,7 +247,7 @@ class WxAvatar extends StatelessWidget {
         borderOpacity: borderOpacity,
         borderAlpha: borderAlpha,
         borderWidth: borderWidth,
-        borderAlign: borderAlign,
+        borderOffset: borderOffset,
         borderStyle: borderStyle,
         borderRadius: borderRadius,
       );
@@ -330,14 +344,16 @@ class WxAvatar extends StatelessWidget {
         constraints: themedStyle.constraints,
         margin: themedStyle.margin,
         clipBehavior: themedStyle.clipBehavior,
-        shadowColor: themedStyle.shadowColor,
+        elevationColor: themedStyle.elevationColor,
         elevation: themedStyle.elevation,
+        shadows: themedStyle.shadows,
+        gradient: themedStyle.backgroundGradient,
         color: themedStyle.effectiveBackgroundColor,
         borderColor: themedStyle.effectiveBorderColor,
         borderWidth: themedStyle.borderWidth,
         borderStyle: themedStyle.borderStyle,
         borderRadius: themedStyle.borderRadius,
-        borderAlign: themedStyle.borderAlign,
+        borderOffset: themedStyle.borderOffset,
         border: themedStyle.border,
         child: result,
       );
@@ -346,14 +362,16 @@ class WxAvatar extends StatelessWidget {
         constraints: themedStyle.constraints,
         margin: themedStyle.margin,
         clipBehavior: themedStyle.clipBehavior,
-        shadowColor: themedStyle.shadowColor,
+        elevationColor: themedStyle.elevationColor,
         elevation: themedStyle.elevation,
+        shadows: themedStyle.shadows,
+        gradient: themedStyle.backgroundGradient,
         color: themedStyle.effectiveBackgroundColor,
         borderColor: themedStyle.effectiveBorderColor,
         borderWidth: themedStyle.borderWidth,
         borderStyle: themedStyle.borderStyle,
         borderRadius: themedStyle.borderRadius,
-        borderAlign: themedStyle.borderAlign,
+        borderOffset: themedStyle.borderOffset,
         border: themedStyle.border,
         child: result,
       );
@@ -372,6 +390,6 @@ class WxAvatar extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<WxAvatarStyle?>('style', style));
+    effectiveStyle.debugFillProperties(properties);
   }
 }
