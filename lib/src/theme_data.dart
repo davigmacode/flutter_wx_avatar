@@ -2,14 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wx_utils/wx_utils.dart';
 import 'style.dart';
-import 'theme_preset.dart';
 
 /// Defines the visual properties of [WxAvatar].
 ///
 /// Descendant widgets obtain the current [WxAvatarThemeData] object using
 /// `WxAvatarTheme.of(context)`. Instances of [WxAvatarThemeData]
 /// can be customized with [WxAvatarThemeData.copyWith] or [WxAvatarThemeData.merge].
-@immutable
 class WxAvatarThemeData extends ThemeExtension<WxAvatarThemeData>
     with Diagnosticable {
   /// The curve to apply when animating the parameters of avatar widget.
@@ -23,27 +21,18 @@ class WxAvatarThemeData extends ThemeExtension<WxAvatarThemeData>
 
   /// Creates a theme data that can be used for [AvatarTheme].
   const WxAvatarThemeData({
-    required this.curve,
-    required this.duration,
-    required this.style,
+    this.curve = Curves.linear,
+    this.duration = const Duration(milliseconds: 200),
+    this.style = const WxAvatarStyle(),
   });
 
-  /// An [WxAvatarThemeData] with some reasonable default values.
-  static const fallback = WxAvatarThemeData(
-    curve: Curves.linear,
-    duration: Duration(milliseconds: 200),
-    style: WxAvatarStyle.defaults,
-  );
-
   /// Creates an [WxAvatarThemeData] from another one that probably null.
-  WxAvatarThemeData.from([WxAvatarThemeData? other])
-      : curve = other?.curve ?? fallback.curve,
+  WxAvatarThemeData.from([
+    WxAvatarThemeData? other,
+    WxAvatarThemeData fallback = const WxAvatarThemeData(),
+  ])  : curve = other?.curve ?? fallback.curve,
         duration = other?.duration ?? fallback.duration,
         style = other?.style ?? fallback.style;
-
-  /// An [WxAvatarThemeData] with default values.
-  factory WxAvatarThemeData.defaults(BuildContext context) =>
-      WxAvatarThemeDefaults(context);
 
   /// Creates a copy of this [WxAvatarThemeData] but with
   /// the given fields replaced with the new values.

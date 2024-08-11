@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
 import 'theme_data.dart';
+import 'theme_preset.dart';
 
 /// A Widget that controls how descendant avatar should look like.
 class WxAvatarTheme extends InheritedTheme {
@@ -44,22 +45,36 @@ class WxAvatarTheme extends InheritedTheme {
     );
   }
 
-  /// The [WxAvatarTheme] from the closest instance of
+  /// The nullable [WxAvatarThemeData] from the closest instance of
   /// this class that encloses the given context.
   ///
   /// Typical usage is as follows:
   ///
   /// ```dart
-  /// AvatarTheme theme = AvatarTheme.of(context);
+  /// WxAvatarThemeData theme = WxAvatarTheme.maybeOf(context);
   /// ```
-  static WxAvatarThemeData of(BuildContext context) {
+  static WxAvatarThemeData? maybeOf(BuildContext context) {
     final parentTheme =
         context.dependOnInheritedWidgetOfExactType<WxAvatarTheme>();
     if (parentTheme != null) return parentTheme.data;
 
     final globalTheme = Theme.of(context).extension<WxAvatarThemeData>();
-    final defaultTheme = WxAvatarThemeData.defaults(context);
-    return defaultTheme.merge(globalTheme);
+    return globalTheme;
+  }
+
+  /// The [WxAvatarThemeData] from the closest instance of
+  /// this class that encloses the given context.
+  ///
+  /// Typical usage is as follows:
+  ///
+  /// ```dart
+  /// WxAvatarThemeData theme = WxAvatarTheme.of(context);
+  /// ```
+  static WxAvatarThemeData of(BuildContext context) {
+    final parent = WxAvatarTheme.maybeOf(context);
+    if (parent != null) return parent;
+
+    return WxAvatarThemeDefault(context);
   }
 
   @override

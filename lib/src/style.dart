@@ -93,16 +93,6 @@ class WxAvatarStyle with Diagnosticable {
         borderStyle = other?.borderStyle,
         borderRadius = other?.borderRadius;
 
-  /// An [WxAvatarStyle] with some reasonable default values.
-  static const defaults = WxAvatarStyle(
-    size: 40.0,
-    border: RoundedRectangleBorder(),
-    borderRadius: BorderRadius.all(Radius.circular(4)),
-    borderWidth: 1.0,
-    borderStyle: BorderStyle.none,
-    borderOffset: BorderSide.strokeAlignOutside,
-  );
-
   /// A border to draw.
   final OutlinedBorder? border;
 
@@ -202,23 +192,17 @@ class WxAvatarStyle with Diagnosticable {
       );
 
   double get effectiveMinSize {
-    if (size == null && minSize == null && maxSize == null) {
-      return defaults.size!;
-    }
     const defaultMinSize = 0.0;
     return size ?? minSize ?? defaultMinSize;
   }
 
   double get effectiveMaxSize {
-    if (size == null && minSize == null && maxSize == null) {
-      return defaults.size!;
-    }
     const defaultMaxSize = double.infinity;
     return size ?? maxSize ?? defaultMaxSize;
   }
 
   /// A border to draw with default value [RoundRectangleBorder]
-  OutlinedBorder get effectiveShape => border ?? defaults.border!;
+  OutlinedBorder get effectiveShape => border ?? const RoundedRectangleBorder();
 
   /// Whether or not this is rectangle shape
   bool get isRectangle =>
