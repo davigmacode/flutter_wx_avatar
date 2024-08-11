@@ -1,6 +1,6 @@
 name: wx_avatar
 description: Provides an intuitive and developer-friendly API, allowing you to effortlessly tailor avatars to your exact requirements.
-version: 3.0.0
+version: 3.1.0
 homepage: https://github.com/davigmacode/flutter_wx_avatar
 
 topics:

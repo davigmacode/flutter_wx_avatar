@@ -1,3 +1,8 @@
+## 3.1.0
+
+* Update to wx_box v4.2.0 and re-export reusable deps
+* Improved style and theme handling
+
 ## 3.0.0
 
 * Updated to wx_box v4.0.0.
