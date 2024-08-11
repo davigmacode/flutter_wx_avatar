@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   wx_avatar:
     path: ../
-  wx_text: ^2.0.1
+  wx_text: ^3.0.0
   overlap_stack: ^1.0.0
 
 dev_dependencies:

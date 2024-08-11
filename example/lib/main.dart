@@ -16,6 +16,14 @@ class MyApp extends StatelessWidget {
       title: 'WxAvatar Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        extensions: [
+          WxAvatarThemeDefault(
+            context,
+            style: WxAvatarStyle(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+        ],
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -35,7 +43,19 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 40),
-              const WxText.displayMedium('WxAvatar'),
+              const WxText.displayMedium(
+                'WxAvatar',
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.green,
+                    Colors.blue,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                fontWeight: FontWeight.bold,
+                letterSpacing: -2,
+              ),
               const SizedBox(height: 40),
               const Wrapper(
                 title: 'Rectangle Shape',
